@@ -15,6 +15,7 @@ public class ScrapingRouteTest extends CamelTestSupport {
 	
 	@Test
 	public void scraperTest() {
-		template.requestBody("direct:hitUrl");
+		String input = "w3schools.com";
+		template.sendBody("direct:startScrape", input);
 	}
 }
