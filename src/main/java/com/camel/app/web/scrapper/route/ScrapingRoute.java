@@ -1,9 +1,9 @@
-package com.mike.maryon.camel.web.scrapper.route;
+package com.camel.app.web.scrapper.route;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 
-import com.mike.maryon.camel.web.scrapper.processor.ScrapingProcessor;
+import com.camel.app.web.scrapper.processor.ScrapingProcessor;
 
 public class ScrapingRoute extends RouteBuilder {
 

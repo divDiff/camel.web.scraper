@@ -1,4 +1,4 @@
-package com.mike.maryon.camel.web.scrapper.domain;
+package com.camel.app.web.scrapper.domain;
 
 import java.time.LocalDate;
 
