@@ -1,11 +1,11 @@
-package com.camel.app.web.scrapper.processor;
+package com.div.diff.scraper.processor;
 
 import java.time.LocalDate;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 
-import com.camel.app.web.scrapper.domain.SiteMetadata;
+import com.div.diff.scraper.domain.SiteMetadata;
 
 public class ScrapingProcessor implements Processor {
 

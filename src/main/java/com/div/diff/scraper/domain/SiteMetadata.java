@@ -1,4 +1,4 @@
-package com.camel.app.web.scrapper.domain;
+package com.div.diff.scraper.domain;
 
 import java.time.LocalDate;
 
