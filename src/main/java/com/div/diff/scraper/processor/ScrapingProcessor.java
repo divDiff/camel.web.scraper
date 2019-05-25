@@ -6,11 +6,14 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 
 import com.div.diff.scraper.domain.SiteMetadata;
+import com.div.diff.scraper.jdbc.SqlEngine;
 
 public class ScrapingProcessor implements Processor {
 
 	@Override
 	public void process(Exchange exchange) throws Exception {
+		SqlEngine sql = new SqlEngine();
+		
 		String content = exchange.getIn().getBody(String.class);
 		LocalDate now = LocalDate.now();
 		
