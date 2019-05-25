@@ -1,0 +1,3 @@
+jdbc.database=SET THIS IN jdbc.properties
+jdbc.user=SET THIS IN jdbc.properties
+jdbc.password=SET THIS IN jdbc.properties
