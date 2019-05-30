@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>      
+  <session-factory>
+    <!-- Database connection settings -->
+    <!-- Change the below fields to match your configuration 
+    	 Once you do that, change this file's name to 
+    	 hibernate.cfg.xml, and you're in business. -->
+    <property name="connection.driver_class">org.postgresql.Driver</property>
+    <property name="connection.url">jdbc:postgresql://localhost/yourPgDbNameHere</property>
+    <property name="connection.username">yourUserHere</property>
+    <property name="connection.password">yourPassHere</property>
+    <property name="show_sql">true</property>
+        
+    <mapping class="com.div.diff.scraper.domain.Page" />
+    <mapping class="com.div.diff.scraper.domain.Connection" />
+     
+  </session-factory>
+</hibernate-configuration>
