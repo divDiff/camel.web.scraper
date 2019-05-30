@@ -5,19 +5,21 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import com.div.diff.scraper.utils.ScrapeConfig;
+
 public class SqlEngine {
 	
 	private Connection conn;
 	
 	public SqlEngine() throws SQLException {
-		this.conn = establishConn(null, null, null);
+		this.conn = establishConn();
 	}
 	
-	public Connection establishConn(String dbName, String user, String password) throws SQLException {
-		String url = "jdbc:postgresql://localhost/" + dbName;
+	private Connection establishConn() throws SQLException {
+		String url = "jdbc:postgresql://localhost/" + ScrapeConfig.props.getProperty(ScrapeConfig.database);
 		Properties props = new Properties();
-		props.setProperty("user", user);
-		props.setProperty("password", password);
+		props.setProperty("user", ScrapeConfig.props.getProperty(ScrapeConfig.user));
+		props.setProperty("password", ScrapeConfig.props.getProperty(ScrapeConfig.passwd));
 		props.setProperty("ssl", "true");
 		return DriverManager.getConnection(url, props);
 	}
