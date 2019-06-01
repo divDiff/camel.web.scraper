@@ -29,8 +29,8 @@ public class PageManager {
 		try {
 			
 		} finally {
-		session.get
-			session.getTransaction().commit();
+//		session.get
+//			session.getTransaction().commit();
 			session.close();
 		}
 		return null;
