@@ -25,11 +25,12 @@ public class ScrapingProcessor implements Processor {
 		site.setSiteContent(content);
 		site.setSiteUrl(exchange.getIn().getHeader("url", String.class));
 		
+		
 		List<Page> newPages = findNewPages(site);
 	}
 	 
 	private List<Page> findNewPages(SiteMetadata site) {
-		List<Page> foundPages = new ArrayList<>();
+		List<Page> foundPages = UrlMatcher.makePagesFromContent(site);
 		return foundPages;
 	}
 
