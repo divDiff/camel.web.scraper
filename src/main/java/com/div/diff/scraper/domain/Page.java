@@ -31,4 +31,19 @@ public class Page {
 	public void setDomain(String domain) {
 		this.domain = domain;
 	}
+	
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+	    if (!(o instanceof Page)) {
+	    	return false;
+	    }
+	     
+	    Page page = (Page) o;
+		if (getUrl().equals(page.getUrl())) {
+			return true;
+		}
+		return false;
+	}
 }
