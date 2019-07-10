@@ -40,25 +40,20 @@ public class PageManager {
 			}
 		}
 		if (brandNewPages.size() > 0) {
-//			logger.info("Found " + brandNewPages.size() + " new pages on X");
 			System.out.println("Found " + brandNewPages.size() + " new pages on " + originalUrl);
-//			Query q = session.createQuery("FROM PAGES P WHERE E.URL IN (:urls)");
-			for (Page page : brandNewPages) {
-				session.save(page);
-			}
+			addPages(brandNewPages, session);
 		} else {
-//			logger.info("No new pages found on " + originalUrl);
 			System.out.println("No new pages found on " + originalUrl);
 		}
 	}
 	
 	public List<Page> findExistingPages(List<Page> pages) {
 		Session session = factory.openSession();
-		Query q = session.createQuery("FROM PAGES P WHERE E.URL IN (:urls)");
-		List<String> urls = new ArrayList<>();
+		StringBuilder urls = new StringBuilder();
 		for (Page p: pages) {
-			urls.add(p.getUrl());
+			urls.append(p.getUrl() + " ");
 		}
+		Query q = session.createQuery("FROM Page P WHERE P.url IN (:urls)").setParameter("urls", urls.toString());
 		List<?> existingPages = executeQuery(q, session);
 		
 		return (List<Page>) existingPages;
@@ -69,10 +64,28 @@ public class PageManager {
 		try {
 			session.beginTransaction();	
 			results = q.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
 		} finally {
 			session.getTransaction().commit();
 			session.close();
 		}
 		return results;
+	}
+	
+	private void addPages(List<Page> pages, Session session) {
+		try {
+			session.beginTransaction();	
+			for (Page page : pages) {
+				session.save(page);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			session.getTransaction().commit();
+			session.close();
+		}
 	}
 }
