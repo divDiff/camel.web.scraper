@@ -2,7 +2,6 @@ package com.div.diff.scraper.processor;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -16,14 +15,10 @@ public class ScrapingProcessor implements Processor {
 
 	private PageManager pm;
 	
-	{
-		pm = new PageManager();
-		pm.setup();
-	}
-	
 	@Override
 	public void process(Exchange exchange) throws Exception {
-//		SqlEngine sql = new SqlEngine();
+		pm = new PageManager();
+		pm.setup();
 		
 		String content = exchange.getIn().getBody(String.class);
 		LocalDate now = LocalDate.now();

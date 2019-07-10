@@ -21,9 +21,12 @@ public class PageManager {
 		        .configure() // configures settings from hibernate.cfg.xml
 		        .build();
 		try {
-			factory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+			factory = new MetadataSources(registry)
+					.buildMetadata()
+					.buildSessionFactory();
 		} catch (Exception ex) {
 		    StandardServiceRegistryBuilder.destroy(registry);
+		    throw ex;
 		}
 	}
 	
