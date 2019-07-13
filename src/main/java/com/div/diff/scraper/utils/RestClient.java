@@ -11,14 +11,14 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
 
 public class RestClient {
-	
+
 	private final String USER_AGENT = "Mozilla/5.0";
-	private HttpClient client; 
-	
+	private HttpClient client;
+
 	public RestClient() {
 		this.client = HttpClientBuilder.create().build();
 	}
-	
+
 	public String getHtmlFromSite(String url) throws ClientProtocolException, IOException {
 		StringBuilder html = new StringBuilder();
 		HttpGet request = new HttpGet(url);
@@ -27,12 +27,10 @@ public class RestClient {
 		request.addHeader("User-Agent", USER_AGENT);
 		HttpResponse response = client.execute(request);
 
-		System.out.println("Response Code : " 
-	                + response.getStatusLine().getStatusCode());
+		System.out.println("Response Code : " + response.getStatusLine().getStatusCode());
 
-		BufferedReader rd = new BufferedReader(
-			new InputStreamReader(response.getEntity().getContent()));
-		
+		BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+
 		String line = "";
 		while ((line = rd.readLine()) != null) {
 			html.append(line);

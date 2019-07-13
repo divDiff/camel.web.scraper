@@ -14,7 +14,7 @@ public class UrlMatcher {
 	private String domain = "";
 	private static String aTagRegex = "(<a ([a-zA-Z0-9=\\?\\\"\\'/\\.\\s\\-\\_]*>([a-zA-Z0-9\\s\\.\\+\\-\\_\\&\\;]*)<\\/a>))";
 	private static String href = "(href=([a-zA-Z0-9\\\"\\'/\\.\\_\\?\\=]*))";
-	
+
 	public static List<Page> makePagesFromContent(SiteMetadata meta) {
 		List<String> links = grabLinks(meta);
 		List<Page> pages = new ArrayList<>();
@@ -28,17 +28,17 @@ public class UrlMatcher {
 		System.out.println("Total Links : " + links.size());
 		return pages;
 	}
-	
+
 	private static List<String> grabLinks(SiteMetadata meta) {
 		List<String> aTags = new ArrayList<>();
 		Pattern aTagPatt = Pattern.compile(aTagRegex);
 		Matcher m = aTagPatt.matcher(meta.getSiteContent());
-		while(m.find()) {
+		while (m.find()) {
 			aTags.add(m.group());
 		}
 		return aTags;
 	}
-	
+
 	private static String inferNewUrl(String aTag, String domain) {
 		Pattern hrefPatt = Pattern.compile(href);
 		Matcher m = hrefPatt.matcher(aTag);
@@ -51,22 +51,27 @@ public class UrlMatcher {
 		}
 		return newUrl.toString();
 	}
-	
+
 	public String getHttps() {
 		return https;
 	}
+
 	public void setHttps(String https) {
 		this.https = https;
 	}
+
 	public String getDomain() {
 		return domain;
 	}
+
 	public void setDomain(String domain) {
 		this.domain = domain;
 	}
+
 	public String getaTagRegex() {
 		return aTagRegex;
 	}
+
 	public void setaTagRegex(String aTagRegex) {
 		this.aTagRegex = aTagRegex;
 	}

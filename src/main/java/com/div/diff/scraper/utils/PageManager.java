@@ -11,26 +11,22 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.query.Query;
 
 import com.div.diff.scraper.domain.Page;
-import com.div.diff.scraper.domain.SiteMetadata;
 
 public class PageManager {
 
 	private SessionFactory factory;
-	
+
 	public void setup() {
-		final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-		        .configure() // configures settings from hibernate.cfg.xml
-		        .build();
+		// configures settings from hibernate.cfg.xml
+		final StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
 		try {
-			factory = new MetadataSources(registry)
-					.buildMetadata()
-					.buildSessionFactory();
+			factory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
 		} catch (Exception ex) {
-		    StandardServiceRegistryBuilder.destroy(registry);
-		    throw ex;
+			StandardServiceRegistryBuilder.destroy(registry);
+			throw ex;
 		}
 	}
-	
+
 	public void addNewPages(List<Page> newPages, String originalUrl) {
 		Session session = factory.openSession();
 		List<Page> existing = findExistingPages(newPages);
@@ -47,24 +43,24 @@ public class PageManager {
 			System.out.println("No new pages found on " + originalUrl);
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private List<Page> findExistingPages(List<Page> pages) {
 		Session session = factory.openSession();
 		StringBuilder urls = new StringBuilder();
-		for (Page p: pages) {
+		for (Page p : pages) {
 			urls.append(p.getUrl() + " ");
 		}
 		Query<?> q = session.createQuery("FROM Page P WHERE P.url IN (:urls)").setParameter("urls", urls.toString());
 		List<Page> existingPages = (List<Page>) executeQuery(q, session);
-		
+
 		return existingPages;
 	}
-	
+
 	private List<?> executeQuery(Query<?> q, Session session) {
 		List<?> results = new ArrayList<>();
 		try {
-			session.beginTransaction();	
+			session.beginTransaction();
 			results = q.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -75,10 +71,10 @@ public class PageManager {
 		}
 		return results;
 	}
-	
+
 	private void addPages(List<Page> pages, Session session) {
 		try {
-			session.beginTransaction();	
+			session.beginTransaction();
 			for (Page page : pages) {
 				session.save(page);
 			}
