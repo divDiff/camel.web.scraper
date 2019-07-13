@@ -8,6 +8,7 @@ import org.apache.http.client.ClientProtocolException;
 
 import com.div.diff.scraper.domain.Page;
 import com.div.diff.scraper.domain.SiteMetadata;
+import com.div.diff.scraper.utils.ConnectionManager;
 import com.div.diff.scraper.utils.PageManager;
 import com.div.diff.scraper.utils.RestClient;
 import com.div.diff.scraper.utils.UrlMatcher;
@@ -16,12 +17,15 @@ public class WebScraper {
 
 	private static RestClient rc;
 	private static PageManager pm;
+	private static ConnectionManager cm;
 
 	public static void main(String[] args) throws ClientProtocolException, IOException {
 		System.out.println("Beginning site scrape of " + args[1]);
 		rc = new RestClient();
 		pm = new PageManager();
+		cm = new ConnectionManager();
 		pm.setup();
+		cm.setup();
 
 		scrapePage(args[1]);
 	}
@@ -35,9 +39,9 @@ public class WebScraper {
 		site.setSiteContent(content);
 		site.setSiteUrl(url);
 
-		List<Page> newPages = UrlMatcher.makePagesFromContent(site);
-		pm.addNewPages(newPages, url);
-
+		List<Page> sitePages = UrlMatcher.makePagesFromContent(site);
+		List<Page> newPages = pm.addNewPages(sitePages, url);
+		cm.makeConnections(site, newPages);
 		for (Page p : newPages) {
 			scrapePage(p.getUrl());
 		}
