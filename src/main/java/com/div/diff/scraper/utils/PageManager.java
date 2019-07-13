@@ -11,6 +11,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.query.Query;
 
 import com.div.diff.scraper.domain.Page;
+import com.div.diff.scraper.domain.SiteMetadata;
 
 public class PageManager {
 
@@ -47,19 +48,20 @@ public class PageManager {
 		}
 	}
 	
-	public List<Page> findExistingPages(List<Page> pages) {
+	@SuppressWarnings("unchecked")
+	private List<Page> findExistingPages(List<Page> pages) {
 		Session session = factory.openSession();
 		StringBuilder urls = new StringBuilder();
 		for (Page p: pages) {
 			urls.append(p.getUrl() + " ");
 		}
-		Query q = session.createQuery("FROM Page P WHERE P.url IN (:urls)").setParameter("urls", urls.toString());
-		List<?> existingPages = executeQuery(q, session);
+		Query<?> q = session.createQuery("FROM Page P WHERE P.url IN (:urls)").setParameter("urls", urls.toString());
+		List<Page> existingPages = (List<Page>) executeQuery(q, session);
 		
-		return (List<Page>) existingPages;
+		return existingPages;
 	}
 	
-	private List<?> executeQuery(Query q, Session session) {
+	private List<?> executeQuery(Query<?> q, Session session) {
 		List<?> results = new ArrayList<>();
 		try {
 			session.beginTransaction();	
