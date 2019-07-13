@@ -4,30 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.query.Query;
 
 import com.div.diff.scraper.domain.Page;
 
-public class PageManager {
+public class PageManager extends EntityManager {
 
-	private SessionFactory factory;
-
-	public void setup() {
-		// configures settings from hibernate.cfg.xml
-		final StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
-		try {
-			factory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
-		} catch (Exception ex) {
-			StandardServiceRegistryBuilder.destroy(registry);
-			throw ex;
-		}
-	}
-
-	public void addNewPages(List<Page> newPages, String originalUrl) {
+	public List<Page> addNewPages(List<Page> newPages, String originalUrl) {
 		Session session = factory.openSession();
 		List<Page> existing = findExistingPages(newPages);
 		List<Page> brandNewPages = new ArrayList<>();
@@ -42,6 +25,7 @@ public class PageManager {
 		} else {
 			System.out.println("No new pages found on " + originalUrl);
 		}
+		return brandNewPages;
 	}
 
 	@SuppressWarnings("unchecked")
