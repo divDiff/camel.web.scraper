@@ -13,18 +13,15 @@
   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <camel.version>2.20.4</camel.version>
   </properties>
 
   <dependencies>
-        <dependency>
-            <groupId>org.apache.camel</groupId>
-            <artifactId>camel-core</artifactId>
-            <version>${camel.version}</version>
-        </dependency>
-
+	  	<dependency>
+		  	<groupId>org.apache.httpcomponents</groupId>
+		  	<artifactId>httpclient</artifactId>
+		  	<version>4.3.6</version>
+		</dependency>
         <!-- Logging -->
-
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -35,30 +32,6 @@
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.12</version>
         </dependency>
-
-
-        <!--X Stream-->
-
-        <dependency>
-        <groupId>org.apache.camel</groupId>
-        <artifactId>camel-xstream</artifactId>
-        <version>${camel.version}</version>
-        </dependency>
-
-        <!--XML2JSON-->
-
-        <dependency>
-            <groupId>org.apache.camel</groupId>
-            <artifactId>camel-xmljson</artifactId>
-            <version>${camel.version}</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.apache.camel</groupId>
-            <artifactId>camel-http</artifactId>
-            <version>${camel.version}</version>
-        </dependency>
-
 	    <dependency>
 	        <groupId>org.hibernate</groupId>
 	        <artifactId>hibernate-core</artifactId>
@@ -69,37 +42,31 @@
 		    <artifactId>postgresql</artifactId>
 		    <version>42.2.5</version>
 		</dependency>
-		
         <dependency>
             <groupId>xom</groupId>
             <artifactId>xom</artifactId>
             <version>1.2.5</version>
         </dependency>
-
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
             <version>1.1.3</version>
         </dependency>
-
         <dependency>
             <groupId>net.sf.ezmorph</groupId>
             <artifactId>ezmorph</artifactId>
             <version>1.0.6</version>
         </dependency>
-
         <dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
             <version>3.2.1</version>
         </dependency>
-
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
             <version>1.8.3</version>
         </dependency>
-        
         <dependency>
 		    <groupId>javax.xml.bind</groupId>
 		    <artifactId>jaxb-api</artifactId>
@@ -121,21 +88,7 @@
 		    <version>1.1.1</version>
 		</dependency>
 
-        <!--Camel-gson-->
-        <dependency>
-            <groupId>org.apache.camel</groupId>
-            <artifactId>camel-gson</artifactId>
-            <version>${camel.version}</version>
-        </dependency>
-		<dependency>
-		     <groupId>org.apache.camel</groupId>
-		     <artifactId>camel-http</artifactId>
-		     <version>${camel.version}</version>
-		     <!-- use the same version as your Camel core version -->
-		 </dependency>
-
         <!--Test Dependencies-->
-
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-test</artifactId>
