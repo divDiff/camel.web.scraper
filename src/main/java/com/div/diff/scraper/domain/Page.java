@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "\"PAGES\"")
+@Table(name = "PAGES")
 public class Page {
 
 	private long id;
@@ -17,7 +17,7 @@ public class Page {
 	private String domain;
 
 	@Id
-	@Column(name = "\"ID\"")
+	@Column(name = "ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public long getId() {
 		return id;
@@ -27,7 +27,7 @@ public class Page {
 		this.id = id;
 	}
 
-	@Column(name = "\"PAGE_NAME\"")
+	@Column(name = "PAGE_NAME")
 	public String getPageName() {
 		return pageName;
 	}
@@ -36,7 +36,7 @@ public class Page {
 		this.pageName = pageName;
 	}
 
-	@Column(name = "\"URL\"")
+	@Column(name = "URL")
 	public String getUrl() {
 		return url;
 	}
@@ -45,7 +45,7 @@ public class Page {
 		this.url = url;
 	}
 
-	@Column(name = "\"DOMAIN\"")
+	@Column(name = "DOMAIN")
 	public String getDomain() {
 		return domain;
 	}
