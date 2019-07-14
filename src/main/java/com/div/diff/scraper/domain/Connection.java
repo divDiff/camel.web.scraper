@@ -1,23 +1,46 @@
 package com.div.diff.scraper.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "CONNECTIONS")
 public class Connection {
 
-	private String sourceUrl;
-	private String destUrl;
+	private long id;
+	private long sourceId;
+	private long destId;
 
-	public String getSourceUrl() {
-		return sourceUrl;
+	@Id
+	@Column(name = "ID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public long getId() {
+		return id;
 	}
 
-	public void setSourceUrl(String sourceUrl) {
-		this.sourceUrl = sourceUrl;
+	public void setId(long id) {
+		this.id = id;
 	}
 
-	public String getDestUrl() {
-		return destUrl;
+	@Column(name = "SOURCE_ID")
+	public long getSourceId() {
+		return sourceId;
 	}
 
-	public void setDestUrl(String destUrl) {
-		this.destUrl = destUrl;
+	public void setSourceId(long sourceId) {
+		this.sourceId = sourceId;
+	}
+
+	@Column(name = "DEST_ID")
+	public long getDestId() {
+		return destId;
+	}
+
+	public void setDestId(long destId) {
+		this.destId = destId;
 	}
 }

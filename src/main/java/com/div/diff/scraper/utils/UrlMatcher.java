@@ -42,7 +42,7 @@ public class UrlMatcher {
 	private static String inferNewUrl(String aTag, String domain) {
 		Pattern hrefPatt = Pattern.compile(href);
 		Matcher m = hrefPatt.matcher(aTag);
-		StringBuilder newUrl = new StringBuilder("https://" + domain);
+		StringBuilder newUrl = new StringBuilder(domain);
 		while (m.find()) {
 			String hrefContents = m.group(2);
 			hrefContents = hrefContents.replace("\"", "");

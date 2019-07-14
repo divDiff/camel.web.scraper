@@ -1,3 +1,4 @@
+
 package com.div.diff.scraper.utils;
 
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import com.div.diff.scraper.domain.Page;
+import com.div.diff.scraper.domain.SiteMetadata;
 
 public class PageManager extends EntityManager {
 
@@ -28,6 +30,26 @@ public class PageManager extends EntityManager {
 		return brandNewPages;
 	}
 
+	public Page getPage(String url) {
+		Session session = factory.openSession();
+		Query<?> q = session.createQuery("FROM Page P WHERE P.url = :url").setParameter("url", url);
+		Page p = (Page) executeGetQuery(q, session);
+		return p;
+	}
+
+	public void addSinglePage(SiteMetadata site) {
+		Page p = new Page();
+		p.setDomain("Trunk");
+		p.setUrl(site.getSiteUrl());
+		p.setPageName("Home Page");
+		Session session = factory.openSession();
+
+		session.beginTransaction();
+		session.save(p);
+		session.getTransaction().commit();
+		session.close();
+	}
+
 	@SuppressWarnings("unchecked")
 	private List<Page> findExistingPages(List<Page> pages) {
 		Session session = factory.openSession();
@@ -41,26 +63,11 @@ public class PageManager extends EntityManager {
 		return existingPages;
 	}
 
-	private List<?> executeQuery(Query<?> q, Session session) {
-		List<?> results = new ArrayList<>();
-		try {
-			session.beginTransaction();
-			results = q.getResultList();
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		} finally {
-			session.getTransaction().commit();
-			session.close();
-		}
-		return results;
-	}
-
 	private void addPages(List<Page> pages, Session session) {
 		try {
 			session.beginTransaction();
-			for (Page page : pages) {
-				session.save(page);
+			for (Page p : pages) {
+				session.save(p);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
