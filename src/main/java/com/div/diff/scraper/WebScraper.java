@@ -2,6 +2,7 @@ package com.div.diff.scraper;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.client.ClientProtocolException;
@@ -18,27 +19,34 @@ public class WebScraper {
 	private static RestClient rc;
 	private static PageManager pm;
 	private static ConnectionManager cm;
+	private static int count = 0;
 
-	public static void main(String[] args) throws ClientProtocolException, IOException {
+	public static void main(String[] args) throws ClientProtocolException, IOException, InterruptedException {
 		System.out.println("Beginning site scrape of " + args[0]);
 		rc = new RestClient();
 		pm = new PageManager();
 		cm = new ConnectionManager();
 		pm.setup();
 		cm.setup();
+		UrlMatcher.setDomain(args[0]);
 
 		SiteMetadata site = gatherSitemetadata(args[0]);
 		pm.addSinglePage(site);
 		scrapePage(site);
 	}
 
-	private static void scrapePage(SiteMetadata site) throws ClientProtocolException, IOException {
+	private static void scrapePage(SiteMetadata site)
+			throws ClientProtocolException, IOException, InterruptedException {
 		List<Page> sitePages = UrlMatcher.makePagesFromContent(site);
+		sitePages = removeDuplicates(sitePages);
 		List<Page> newPages = pm.addNewPages(sitePages, site.getSiteUrl());
 		Page page = pm.getPage(site.getSiteUrl());
 
 		cm.makeConnections(page, newPages);
 		for (Page p : newPages) {
+			count++;
+			System.out.println("Sleeping 30 seconds... " + count + " times");
+			Thread.sleep(30000);
 			site = gatherSitemetadata(p.getUrl());
 			scrapePage(site);
 		}
@@ -52,5 +60,15 @@ public class WebScraper {
 		site.setSiteContent(content);
 		site.setSiteUrl(url);
 		return site;
+	}
+
+	private static List<Page> removeDuplicates(List<Page> pages) {
+		List<Page> noDupes = new ArrayList<>();
+		for (Page p : pages) {
+			if (!noDupes.contains(p)) {
+				noDupes.add(p);
+			}
+		}
+		return noDupes;
 	}
 }

@@ -4,6 +4,7 @@ package com.div.diff.scraper.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.NonUniqueResultException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
@@ -33,7 +34,13 @@ public class PageManager extends EntityManager {
 	public Page getPage(String url) {
 		Session session = factory.openSession();
 		Query<?> q = session.createQuery("FROM Page P WHERE P.url = :url").setParameter("url", url);
-		Page p = (Page) executeGetQuery(q, session);
+		Page p = new Page();
+		try {
+			p = (Page) executeGetQuery(q, session);
+		} catch (NonUniqueResultException e) {
+			System.out.println("The following url has duplicates: " + url);
+			throw e;
+		}
 		return p;
 	}
 
@@ -53,11 +60,11 @@ public class PageManager extends EntityManager {
 	@SuppressWarnings("unchecked")
 	private List<Page> findExistingPages(List<Page> pages) {
 		Session session = factory.openSession();
-		StringBuilder urls = new StringBuilder();
+		List<String> urls = new ArrayList<>();
 		for (Page p : pages) {
-			urls.append(p.getUrl() + " ");
+			urls.add(p.getUrl());
 		}
-		Query<?> q = session.createQuery("FROM Page P WHERE P.url IN (:urls)").setParameter("urls", urls.toString());
+		Query<?> q = session.createQuery("FROM Page P WHERE P.url IN (:urls)").setParameterList("urls", urls);
 		List<Page> existingPages = (List<Page>) executeQuery(q, session);
 
 		return existingPages;

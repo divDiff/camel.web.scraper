@@ -11,7 +11,7 @@ import com.div.diff.scraper.domain.SiteMetadata;
 public class UrlMatcher {
 
 	private String https = "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)\n";
-	private String domain = "";
+	private static String domain = "";
 	private static String aTagRegex = "(<a ([a-zA-Z0-9=\\?\\\"\\'/\\.\\s\\-\\_]*>([a-zA-Z0-9\\s\\.\\+\\-\\_\\&\\;]*)<\\/a>))";
 	private static String href = "(href=([a-zA-Z0-9\\\"\\'/\\.\\_\\?\\=]*))";
 
@@ -20,9 +20,9 @@ public class UrlMatcher {
 		List<Page> pages = new ArrayList<>();
 		for (String link : links) {
 			Page p = new Page();
-			p.setDomain(meta.getSiteUrl());
+			p.setDomain(domain);
 			p.setPageName(link);
-			p.setUrl(inferNewUrl(link, meta.getSiteUrl()));
+			p.setUrl(inferNewUrl(link, domain));
 			pages.add(p);
 		}
 		System.out.println("Total Links : " + links.size());
@@ -43,7 +43,7 @@ public class UrlMatcher {
 		Pattern hrefPatt = Pattern.compile(href);
 		Matcher m = hrefPatt.matcher(aTag);
 		StringBuilder newUrl = new StringBuilder(domain);
-		while (m.find()) {
+		if (m.find()) {
 			String hrefContents = m.group(2);
 			hrefContents = hrefContents.replace("\"", "");
 			hrefContents = hrefContents.replace("\'", "");
@@ -64,8 +64,8 @@ public class UrlMatcher {
 		return domain;
 	}
 
-	public void setDomain(String domain) {
-		this.domain = domain;
+	public static void setDomain(String domainVal) {
+		domain = domainVal;
 	}
 
 	public String getaTagRegex() {
