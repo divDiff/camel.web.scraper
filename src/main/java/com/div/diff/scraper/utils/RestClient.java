@@ -7,8 +7,10 @@ import java.io.InputStreamReader;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 
 public class RestClient {
 
@@ -23,6 +25,10 @@ public class RestClient {
 		StringBuilder html = new StringBuilder();
 		HttpGet request = new HttpGet(url);
 
+		RequestConfig config = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000)
+				.setConnectionRequestTimeout(5000).build();
+		request.setConfig(config);
+
 		// add request header
 		request.addHeader("User-Agent", USER_AGENT);
 		HttpResponse response = client.execute(request);
@@ -35,6 +41,7 @@ public class RestClient {
 		while ((line = rd.readLine()) != null) {
 			html.append(line);
 		}
+		EntityUtils.consumeQuietly(response.getEntity());
 		return html.toString();
 	}
 }
