@@ -68,4 +68,8 @@ public class Page {
 		}
 		return false;
 	}
+
+	public String toString() {
+		return "Url: " + this.url + ", Domain: " + this.domain;
+	}
 }

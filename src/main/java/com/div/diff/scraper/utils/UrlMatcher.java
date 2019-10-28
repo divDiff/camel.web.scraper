@@ -47,6 +47,9 @@ public class UrlMatcher {
 			String hrefContents = m.group(2);
 			hrefContents = hrefContents.replace("\"", "");
 			hrefContents = hrefContents.replace("\'", "");
+			if (hrefContents.charAt(0) != '/') {
+				newUrl.insert(newUrl.length(), "/");
+			}
 			newUrl.append(hrefContents);
 		}
 		return newUrl.toString();

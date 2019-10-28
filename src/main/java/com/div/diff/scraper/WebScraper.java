@@ -30,7 +30,7 @@ public class WebScraper {
 		cm.setup();
 		UrlMatcher.setDomain(args[0]);
 
-		SiteMetadata site = gatherSitemetadata(args[0]);
+		SiteMetadata site = gatherSitemetadata(args[0], "");
 		pm.addSinglePage(site);
 		scrapePage(site);
 	}
@@ -45,20 +45,27 @@ public class WebScraper {
 		cm.makeConnections(page, newPages);
 		for (Page p : newPages) {
 			count++;
-			System.out.println("Sleeping 30 seconds... " + count + " times");
-			Thread.sleep(30000);
-			site = gatherSitemetadata(p.getUrl());
-			scrapePage(site);
+			System.out.println("Sleeping 10 seconds... " + count + " times");
+			Thread.sleep(10000);
+			SiteMetadata nextSite = new SiteMetadata();
+			nextSite = gatherSitemetadata(p.getUrl(), site.getSiteUrl());
+			scrapePage(nextSite);
 		}
 	}
 
-	private static SiteMetadata gatherSitemetadata(String url) throws ClientProtocolException, IOException {
-		String content = rc.getHtmlFromSite(url);
-		LocalDate now = LocalDate.now();
+	private static SiteMetadata gatherSitemetadata(String url, String parent)
+			throws ClientProtocolException, IOException {
 		SiteMetadata site = new SiteMetadata();
-		site.setScrapeDate(now);
-		site.setSiteContent(content);
-		site.setSiteUrl(url);
+		try {
+			String content = rc.getHtmlFromSite(url, parent);
+			LocalDate now = LocalDate.now();
+			site.setScrapeDate(now);
+			site.setSiteContent(content);
+			site.setSiteUrl(url);
+//			System.out.println(content);
+		} catch (Exception e) {
+			throw e;
+		}
 		return site;
 	}
 
